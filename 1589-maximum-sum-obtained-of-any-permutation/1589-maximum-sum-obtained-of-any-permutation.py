@@ -1,16 +1,14 @@
 class Solution:
     def maxSumRangeQuery(self, nums: List[int], requests: List[List[int]]) -> int:
         n = len(nums)
-        prefix = [0] * n
-
+        prefix = [0] * (n + 1)
         # Contract prefix sum of requests
         for start, end in requests:
             prefix[start] += 1
-            if end + 1 < n:
-                prefix[end + 1] -= 1
+            prefix[end + 1] -= 1
 
-        cur_sum = 0
-        for i in range(1, n):
+       
+        for i in range(1, n+1):
             prefix[i] += prefix[i - 1]
 
         # Sort prefix and nums to maximize the answer
@@ -19,8 +17,8 @@ class Solution:
 
         result = 0
         for i in range(n):
-            result += nums[i] * prefix[i]
+            result += nums[i] * prefix[i+1]
 
-        return result
+        return result % (10**9 + 7)
         
 
