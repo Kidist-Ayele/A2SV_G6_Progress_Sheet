@@ -1,22 +1,18 @@
 class Solution:
     def splitString(self, s: str) -> bool:
-        current = []
-
-        def backtrack(index):
-            if index >= len(s):
-                return len(current) >= 2
-
-            for i in range(index, len(s)):
-                val = int(s[index: i + 1])
-                if len(current) == 0 or val == current[-1] - 1:
-                    current.append(val)
-                    if backtrack(i + 1):
-                        return True
-                    current.pop()
-
+        def dfs(index, prev):
+            if index == len(s):
+                return True
+            
+            for j in range(index, len(s)):
+                val = int(s[index:j + 1])
+                if prev == val + 1 and dfs(j + 1, val):
+                    return True
             return False
 
-        return backtrack(0)
-
-
+        for i in range(len(s) - 1):
+            val = int(s[:i + 1])
+            if dfs(i + 1, val):
+                return True
+        return False
         
