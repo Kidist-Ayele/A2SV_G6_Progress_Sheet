@@ -2,30 +2,35 @@ class Solution:
     def getAncestors(self, n: int, edges: List[List[int]]) -> List[List[int]]:
         
         graph = defaultdict(list)
-        # Reverse the direction: build child → parents map
-        for v, u in edges:
+        indegree = [0] * n
+        for u, v in edges:
             graph[u].append(v)
+            indegree[v] += 1
 
 
-        ans = [set() for _ in range(n)] 
-        visited = [False] * n
-        
-        def dfs(node):
-            if visited[node]:
-                return ans[node]
+        ancestors = [set() for _ in range(n)] 
 
-
-            for parent in graph[node]:
-                ans[node].add(parent) 
-                ans[node].update(dfs(parent))
-    
-            visited[node] = True
-            return ans[node]
-
+        queue = deque()
         for i in range(n):
-            dfs(i)
+            if indegree[i] == 0:
+                queue.append(i)
+
+
+        while queue:
+            node = queue.popleft()
+
+            for child in graph[node]:
+                ancestors[child].update(ancestors[node])
+                ancestors[child].add(node)
+
+                indegree[child] -= 1
+                if indegree[child] == 0:
+                    queue.append(child)
+
+
         
-        return [sorted(list(num)) for num in ans]
+       
+        return [sorted(list(num)) for num in ancestors]
 
 
 
