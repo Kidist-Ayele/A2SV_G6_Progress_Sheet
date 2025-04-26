@@ -19,13 +19,13 @@ class Solution:
         while queue:
             node = queue.popleft()
 
-            for child in graph[node]:
-                ancestors[child].update(ancestors[node])
-                ancestors[child].add(node)
+            for neighbor in graph[node]:
+                ancestors[neighbor].update(ancestors[node])
+                ancestors[neighbor].add(node)
 
-                indegree[child] -= 1
-                if indegree[child] == 0:
-                    queue.append(child)
+                indegree[neighbor] -= 1
+                if indegree[neighbor] == 0:
+                    queue.append(neighbor)
 
 
         
