@@ -1,29 +1,34 @@
+class UnionFind:
+    def __init__(self, n):
+        self.parent = list(range(n))
+        self.size = [1] * n
+
+    def find(self, x):
+        if self.parent[x] != x:
+            self.parent[x] = self.find(self.parent[x])
+        return self.parent[x]
+    
+    def union(self, x, y):
+        parent_x = self.find(x)
+        parent_y = self.find(y)
+
+        if parent_x != parent_y:
+            if self.size[parent_x] > self.size[parent_y]:
+                self.size[parent_x] += self.size[parent_y]
+                self.parent[parent_y] = parent_x
+            else:
+                self.size[parent_y] += self.size[parent_x]
+                self.parent[parent_x] = parent_y
+
 class Solution:
     def findCircleNum(self, isConnected: List[List[int]]) -> int:
-        # Change to adjacency list
-        graph = defaultdict(list)
+        n = len(isConnected)
+        uf = UnionFind(n)
 
         for i in range(len(isConnected)):
-            for j in range(len(isConnected[0])):
-                if i != j and isConnected[i][j]:
-                    graph[i].append(j)
-
-        # DFS traversal
-        visited = set()
-
-        def dfs(node):
-            visited.add(node)
-
-            for nb in graph[node]:
-                if nb not in visited:
-                    dfs(nb)
-        count = 0
-
-        #Count connected provinces 
-        for city in range(len(isConnected)):
-            if city not in visited:
-                    count += 1
-                    dfs(city)
-        return count
-
+            for j in range(i + 1, len(isConnected[0])):
+                if isConnected[i][j] and uf.find(i) != uf.find(j):
+                    uf.union(i, j)
+                    n -= 1
+        return n
         
