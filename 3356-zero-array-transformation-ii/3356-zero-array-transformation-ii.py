@@ -19,17 +19,17 @@ class Solution:
             return True
 
         left, right = 0, len(queries)
-        ans = float('inf')
+        result = float('inf')
 
         while left <= right:
             mid = left + (right -left) // 2
 
             if canBeZero(mid):
-                ans = min(ans, mid)
+                result = min(result, mid)
                 right = mid - 1
             else:
                 left = mid + 1
-        return ans if ans != float('inf') else -1
+        return result if result != float('inf') else -1
 
 
         
