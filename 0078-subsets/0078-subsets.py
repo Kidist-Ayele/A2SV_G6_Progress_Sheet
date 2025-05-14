@@ -1,20 +1,14 @@
 class Solution:
     def subsets(self, nums: List[int]) -> List[List[int]]:
         res = []
-        ans = []
 
-        def backtrack(index):
-            if index >= len(nums):
-                ans.append(res[:])
-                return
-
-            res.append(nums[index])
-            backtrack(index + 1)
-
-            res.pop()
-            backtrack(index + 1)
-        backtrack(0)
-        return ans
-
+        for num in range(2 ** len(nums)):
+            temp = []
+            for i in range(32):
+                if num & (1 << i) != 0:
+                    # print(num & (1 << i))
+                    temp.append(nums[i])
+            res.append(temp)
+        return res
 
         
