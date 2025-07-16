@@ -1,15 +1,14 @@
 class Solution:
     def findErrorNums(self, nums: List[int]) -> List[int]:
-         # Cyclic Sort
         
         i = 0 
         n = len(nums)
 
         while i < n:
-            correct_pos = nums[i] - 1
+            position = nums[i] - 1
 
-            if nums[i] != nums[correct_pos]:
-                nums[i], nums[correct_pos] = nums[correct_pos], nums[i]
+            if nums[i] != nums[position]:
+                nums[i], nums[position] = nums[position], nums[i]
             else:
                 i += 1
 
