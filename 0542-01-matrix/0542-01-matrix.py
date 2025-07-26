@@ -3,7 +3,7 @@ class Solution:
         def inbound(row, col):
             return (0 <= row < len(mat) and 0 <= col < len(mat[0]))
 
-        directions = {(0, 1), (1, 0), (-1, 0), (0, -1)}
+        direct = {(0, 1), (1, 0), (-1, 0), (0, -1)}
         dis = [[-1]*len(mat[0]) for _ in range(len(mat))]
 
         queue = deque()
@@ -16,7 +16,7 @@ class Solution:
 
         while queue:
             row, col = queue.popleft()
-            for dx, dy in directions:
+            for dx, dy in direct:
                 new_row = row + dx
                 new_col = col + dy
 
