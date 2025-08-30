@@ -1,24 +1,24 @@
 class Solution:
     def search(self, nums: List[int], target: int) -> int:
-        left, right = 0, len(nums) - 1
+        l, r = 0, len(nums) - 1
 
-        while left <= right:
-            mid = left + (right - left) // 2
+        while l <= r:
+            mid = l + (r - l) // 2
             if nums[mid] == target:
                 return mid
-            left_most = max(mid-1,left)
-            right_most = min(mid + 1, right)
+            l_most = max(mid-1,l)
+            r_most = min(mid + 1, r)
 
-            if nums[left] <= nums[left_most]:
-                if target >= nums[left] and target <= nums[left_most]:
-                    right = mid - 1
+            if nums[l] <= nums[l_most]:
+                if target >= nums[l] and target <= nums[l_most]:
+                    r = mid - 1
                 else:
-                    left = mid + 1
+                    l = mid + 1
             else:
-                if target >= nums[right_most] and target <= nums[right]:
-                    left = mid + 1
+                if target >= nums[r_most] and target <= nums[r]:
+                    l = mid + 1
                 else:
-                    right = mid - 1
+                    r = mid - 1
                 
         return -1
 
