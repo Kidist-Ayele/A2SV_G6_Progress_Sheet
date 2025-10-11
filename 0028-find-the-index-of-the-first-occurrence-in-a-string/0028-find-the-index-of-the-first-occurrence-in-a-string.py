@@ -1,5 +1,6 @@
 class Solution:
     def strStr(self, haystack: str, needle: str) -> int:
+        #Using Queue
         if len(haystack) < len(needle):
             return -1
 
