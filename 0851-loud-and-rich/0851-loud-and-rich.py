@@ -1,42 +1,31 @@
 class Solution:
     def loudAndRich(self, richer: List[List[int]], quiet: List[int]) -> List[int]:
         graph = defaultdict(list)
-        indegree = [0] * (len(quiet))
+        n = len(quiet)
+        indegree = [0] * n
 
-        for u, v in richer:
-            graph[u].append(v)
-            indegree[v] += 1
-        
+        for a, b in richer:
+            graph[a].append(b)
+            indegree[b] += 1
+        # print(indegree)
         queue = deque()
-
-        for i in range(len(quiet)):
+        for i in range(n):
             if indegree[i] == 0:
                 queue.append(i)
+        # print(queue)
         
-        ancestors = [set() for _ in range(len(quiet))]
-
+        result = [i for i in range(n)]
+        # print(graph)
         while queue:
             node = queue.popleft()
-
             for child in graph[node]:
-                ancestors[child].update(ancestors[node])
-                ancestors[child].add(node)
+                if quiet[result[node]] < quiet[result[child]]:
+                    result[child] = result[node]
 
                 indegree[child] -= 1
                 if indegree[child] == 0:
                     queue.append(child)
-
-        ans = []
-        for x in range(len(quiet)):
-            cur_min = quiet[x]
-            cur_val = x
-            for y in ancestors[x]:
-                if quiet[y] < cur_min:
-                    cur_min = quiet[y]
-                    cur_val = y
-            ans.append(cur_val)
-        
-        return ans
+                    
+        return result
 
 
-        
