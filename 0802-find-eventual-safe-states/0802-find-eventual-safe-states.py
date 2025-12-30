@@ -1,31 +1,32 @@
 class Solution:
     def eventualSafeNodes(self, graph: List[List[int]]) -> List[int]:
         n = len(graph)
-        indegree = [0] * n
-        reverse_graph = [[] for _ in range(n)]
+        new_g = defaultdict(list)
+        outdegree = [0] * n
 
-        # Build reverse graph and compute indegrees
-        for u in range(n):
-            for v in graph[u]:
-                reverse_graph[v].append(u)
-                indegree[u] += 1
-
+        for i, arr in enumerate(graph):
+            outdegree[i] = len(arr)
+            for num in arr:
+                new_g[num].append(i)
         queue = deque()
+        ans = []
+    
         for i in range(n):
-            if indegree[i] == 0:
+            if len(graph[i]) == 0:
                 queue.append(i)
-
-        safe = [False] * n
-
+  
+  
+        print(new_g)
         while queue:
             node = queue.popleft()
-            safe[node] = True
-            for neighbor in reverse_graph[node]:
-                indegree[neighbor] -= 1
-                if indegree[neighbor] == 0:
-                    queue.append(neighbor)
+            ans.append(node)
+            for parent in new_g[node]:
+                outdegree[parent] -= 1
+                if outdegree[parent] == 0:
+                    queue.append(parent)
+        ans.sort()
+        return ans
 
-        
-        return sorted([i for i in range(n) if safe[i]])
+
 
         
